@@ -1,11 +1,14 @@
+import dotenv from "dotenv";
+dotenv.config();
+
 import express from "express";
 const app = express();
+
 import cors from "cors";
 const PORT = 8008;
 
 import path from "path";
 const __dirname = path.resolve();
-console.log(__dirname);
 
 // connect mongodb
 import { mongoConnect } from "./src/config/mongoDb.js";
@@ -25,7 +28,7 @@ app.use("/", (req, res) => {
   // res.json({ message: "Server running healthy" });
   res.sendFile(__dirname + "/index.html");
 });
-
+console.log(process.env);
 // open port for http request to access the server
 app.listen(PORT, (err) => {
   err
