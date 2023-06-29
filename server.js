@@ -21,6 +21,7 @@ app.use(express.static(__dirname + "/build"));
 
 // API endpoints
 import taskRouter from "./src/router/taskRouter.js";
+import mongoose from "mongoose";
 
 app.use("/api/v1/task", taskRouter);
 
@@ -29,8 +30,15 @@ app.use("/", (req, res) => {
   res.sendFile(__dirname + "/index.html");
 });
 
-mongoConnect()
+const dbLink =
+  process.env.NODE_ENV !== "production"
+    ? "mongodb://localhost:27017/nottododb"
+    : process.env.MONGO_CLIENT;
+
+mongoose
+  .connect(dbLink)
   .then(() => {
+    console.log("Mongo Connected.");
     // open port for http request to access the server
     app.listen(PORT, (err) => {
       err
